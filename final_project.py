@@ -8,8 +8,9 @@ def setup_matrix(N, epsilon, delta_t):
     h = 1
     upper = np.eye(N, k=-1)
     lower = np.eye(N, k=1)
-    mid = (-2 + (4j*m*epsilon**2)/(h*delta_t))
-    return upper+lower+mid
+    mid = (-2 + (4j*m*epsilon**2)/(h*delta_t))*np.eye(N)
+    matrix = upper+lower+mid
+    return matrix
 
 
 def find_x(phi, delta_t):
@@ -35,6 +36,14 @@ def plot_func(func):
     magnitude = np.multiply(np.conj(func), func)
     plt.plot(magnitude)
     plt.show()
+
+
+def plot_real_and_imag(func):
+    # Plots real and imaginary aspects of function.
+    f, subplots = plt.subplots(2, sharex=True)
+    subplots[0].plot(np.real(func))
+    subplots[1].plot(np.imag(func))
+    f.show()
 
 
 def find_nth_state(phi, delta_t, n):
