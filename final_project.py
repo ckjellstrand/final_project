@@ -29,26 +29,36 @@ def create_gaussian_phi(epsilon, k, x0, sigma):
     # Sets up a gaussian using linspace.
     num = (2*epsilon**-1) + 1
     xx = np.linspace(-1, 1, num)
-    #phi = np.exp(1j*k*xx)*np.exp(-(xx-x0)**2 / (2*sigma**2))
-    #phi = np.exp(-(xx-x0)**2 / (2*sigma**2))
     phi = (np.cos(k*xx) + 1j*np.sin(k*xx))*(np.exp(-(xx-x0)**2 / (2*sigma**2)))
     return phi
 
 
-def plot_magnitude(func):
-    # Plots magnitude of function.
-    magnitude = np.multiply(np.conj(func), func)
-    plt.plot(magnitude)
-    plt.show()
+def create_step_function(epsilon, h):
+    num = (2*epsilon**-1) + 1
+    xx = np.linspace(-1, 1, num)
+    v =  np.zeros(len(xx))
+    v[np.floor(len(xx)/2):] = h
+    return v
 
 
-def plot_real_and_imag(func):
+def plot_phi(func):
     # Plots real and imaginary aspects of function.
-    f, subplots = plt.subplots(2, sharex=True)
-    subplots[0].plot(np.real(func))
-    subplots[0].set_title("Real")
-    subplots[1].plot(np.imag(func))
-    subplots[1].set_title("Imaginary")
+    f, subplots = plt.subplots(3, sharex=True)
+    xx = np.linspace(-1, 1, len(func))
+
+    magnitude = np.multiply(np.conj(func), func)
+    subplots[0].plot(xx, magnitude)
+    subplots[0].set_title("Magnitude")
+    subplots[0].set_ylabel("Phi*Phi")
+    subplots[0].set_xlabel("X")
+    subplots[1].plot(xx,np.real(func))
+    subplots[1].set_title("Real")
+    subplots[1].set_ylabel("Re(Phi)")
+    subplots[1].set_xlabel("X")
+    subplots[2].plot(xx, np.imag(func))
+    subplots[2].set_title("Imaginary")
+    subplots[2].set_ylabel("Im(Phi)")
+    subplots[2].set_xlabel("X")
     f.show()
 
 
