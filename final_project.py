@@ -52,6 +52,32 @@ def create_step_function(epsilon, h):
     return v
 
 
+def create_pocket_potential(epsilon, w, s, b, h):
+    num = (2*epsilon**-1) + 1
+    xx = np.linspace(-1, 1, num)
+    v =  np.zeros(len(xx))
+    center = np.floor(len(xx)/2)
+
+    wfrac = w/2
+    wlen = np.floor(num*wfrac)
+
+    bottom = center-wlen
+    top = center+wlen+1
+    v[bottom:top] = b
+
+    sfrac = s/2
+    slen = np.floor(num*sfrac)
+    v[bottom:bottom+slen] = h
+    v[top-slen:top] = h
+
+    return v
+
+
+def create_pocket_phi(epsilon):
+    num = (2*epsilon**-1) + 1
+    xx = np.linspace(-1, 1, num)
+
+
 def plot_phi(func):
     # Plots real and imaginary aspects of function.
     f, subplots = plt.subplots(3, sharex=True)
