@@ -2,6 +2,7 @@ from __future__ import division
 import numpy as np
 from matplotlib import pyplot as plt
 
+
 def setup_matrix(N, epsilon, delta_t):
     # Sets up matrix for equation 6.
     m = 1
@@ -23,15 +24,18 @@ def find_x(phi, delta_t):
     rhs = ((8j*m*epsilon**2)/(h*delta_t))*phi
     return np.linalg.solve(A, rhs)
 
+
 def create_gaussian_phi(epsilon, k, x0, sigma):
     # Sets up a gaussian using linspace.
     num = (2*epsilon**-1) + 1
-    xx = np.linspace(1, -1, num)
-    phi = np.exp(1j*k*xx)*np.exp(-(xx-x0)**2 / (2*sigma**2))
+    xx = np.linspace(-1, 1, num)
+    #phi = np.exp(1j*k*xx)*np.exp(-(xx-x0)**2 / (2*sigma**2))
+    #phi = np.exp(-(xx-x0)**2 / (2*sigma**2))
+    phi = (np.cos(k*xx) + 1j*np.sin(k*xx))*(np.exp(-(xx-x0)**2 / (2*sigma**2)))
     return phi
 
 
-def plot_func(func):
+def plot_magnitude(func):
     # Plots magnitude of function.
     magnitude = np.multiply(np.conj(func), func)
     plt.plot(magnitude)
@@ -42,7 +46,9 @@ def plot_real_and_imag(func):
     # Plots real and imaginary aspects of function.
     f, subplots = plt.subplots(2, sharex=True)
     subplots[0].plot(np.real(func))
+    subplots[0].set_title("Real")
     subplots[1].plot(np.imag(func))
+    subplots[1].set_title("Imaginary")
     f.show()
 
 
